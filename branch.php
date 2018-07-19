@@ -10,13 +10,20 @@ session_start();
             $branch = $_POST['branch'];
             $address = $_POST['address'];
             $no = $_POST['phoneNo'];
+            $status = 'unblock';
            
 
-$sql = "INSERT INTO branch(companyId,companyName,branchName,branchAddress,branchPhoneNo)
-VALUES ('$companyId','$companyName','$branch','$address',$no)";
+$sql = "INSERT INTO branch(companyId,companyName,branchName,branchAddress,branchPhoneNo,status)
+VALUES ('$companyId','$companyName','$branch','$address',$no,'$status')";
 
             if (mysqli_query($conn, $sql)) {
-               echo "New record created successfully";
+              /* echo "New record created successfully";*/
+               ?>
+    <script type="text/javascript">
+    alert('Data Are Inserted Successfully ');
+    window.location.href='index.php';
+    </script>
+    <?php
             } else {
                echo "Error: " . $sql . "" . mysqli_error($conn);
             }
@@ -27,22 +34,36 @@ VALUES ('$companyId','$companyName','$branch','$address',$no)";
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <!--[if IE]>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <![endif]-->
-    <title>BRANCH</title>
-    <!-- BOOTSTRAP CORE STYLE  -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONT AWESOME STYLE  -->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- CUSTOM STYLE  -->
-    <link href="assets/css/style.css" rel="stylesheet" />
-    <!-- GOOGLE FONT -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height:28px;
+   
+}
+
+        .menu-section {
+    background-color: #f7f7f7;
+    border-bottom: 5px solid #9170E4;
+    width: 100%;
+}
+
+
+
+</style>
+<script type="text/javascript">
+    $(document).ready(function(){
+    // Initialize Tooltip
+    $('[data-toggle="tooltip"]').tooltip(); 
+})
+</script>
 
 </head>
 <body>           
@@ -104,11 +125,7 @@ include 'header.php';
         </div>
     </div>
 </div>
-       
 
- <script src="assets/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS  -->
-    <script src="assets/js/bootstrap.js"></script>
-    <script src="assets/js/custom.js"></script>
+
 </body>
 </html>

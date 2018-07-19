@@ -15,7 +15,7 @@ session_start();
             $empAddress = $_POST['address'];
             $empPhoneNo = $_POST['phoneNo'];
             $empPassword = $_POST['password'];
-            $status = 'Unblock';
+            $status = 'unblock';
            
            
 
@@ -23,7 +23,13 @@ $sql = "INSERT INTO employee_registration(companyId,companyName,branchId,branchN
 VALUES ('$companyId','$companyName','$branchId','$branchName','$empName','$empUserName','$empAddress','$empPhoneNo','$empPassword','$status')";
 
             if (mysqli_query($conn, $sql)) {
-               echo "New record created successfully";
+                ?>
+        <script type="text/javascript">
+        alert('Data Are Inserted Successfully');
+        window.location.href='index.php';
+        </script>
+
+        <?php
             } else {
                echo "Error: " . $sql . "" . mysqli_error($conn);
             }
@@ -35,22 +41,12 @@ VALUES ('$companyId','$companyName','$branchId','$branchName','$empName','$empUs
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <!--[if IE]>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <![endif]-->
-    <title>FREE RESPONSIVE HORIZONTAL ADMIN</title>
-    <!-- BOOTSTRAP CORE STYLE  -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONT AWESOME STYLE  -->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- CUSTOM STYLE  -->
-    <link href="assets/css/style.css" rel="stylesheet" />
-    <!-- GOOGLE FONT -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 <body>
@@ -104,7 +100,7 @@ include 'header.php';
                 <option value="">None</option>
 
                 <?php
-                $query ="SELECT branchName, branchId FROM branch WHERE companyId LIKE {$_SESSION['companyId']} Group by branchName  ";
+                $query ="SELECT branchName, branchId FROM branch WHERE companyId LIKE {$_SESSION['companyId']}  AND status = 'unblock' Group by branchName  ";
                 $result= mysqli_query($conn,$query);
 
                 while($row=mysqli_fetch_array($result))
@@ -175,12 +171,7 @@ x.type = "password";
 
 <!-- footer  -->
 <?php
-//include 'footer.php';
+include 'footer.php';
 ?>     
-
- <script src="assets/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS  -->
-    <script src="assets/js/bootstrap.js"></script>
-    <script src="assets/js/custom.js"></script>
 </body>
 </html>

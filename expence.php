@@ -3,13 +3,12 @@ include 'db_connect.php';
 session_start();
 ?>
 <?php
-
          if(isset($_POST['submit'])){
 
             $companyId = $_SESSION['companyId'];
             $companyName = $_SESSION['companyName'];
             $branchId = $_POST['branch'];
-            $branchName = $y;
+            $branchName = $_POST['selectBranchName'];
             $expensesFor = $_POST['expensesFor'];
             $expensesDate = $_POST['date'];
             $expensesAmount = $_POST['expensesAmount'];
@@ -21,7 +20,12 @@ $sql = "INSERT INTO expenses(companyId,companyName,branchId,branchName,expensesF
 VALUES ('$companyId','$companyName','$branchId','$branchName','$expensesFor','$expensesDate','$expensesAmount')";
 
             if (mysqli_query($conn, $sql)) {
-               echo "New record created successfully";
+                 ?>
+    <script type="text/javascript">
+    alert('Data Are Inserted Successfully ');
+    window.location.href='index.php';
+    </script>
+    <?php
             } else {
                echo "Error: " . $sql . "" . mysqli_error($conn);
             }
@@ -32,22 +36,30 @@ VALUES ('$companyId','$companyName','$branchId','$branchName','$expensesFor','$e
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <!--[if IE]>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <![endif]-->
-    <title>FREE RESPONSIVE HORIZONTAL ADMIN</title>
-    <!-- BOOTSTRAP CORE STYLE  -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONT AWESOME STYLE  -->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- CUSTOM STYLE  -->
-    <link href="assets/css/style.css" rel="stylesheet" />
-    <!-- GOOGLE FONT -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+<style type="text/css">
+
+
+
+body {
+font-family: 'Open Sans', sans-serif;
+line-height:28px;
+
+}
+
+.menu-section {
+background-color: #f7f7f7;
+border-bottom: 5px solid #9170E4;
+width: 100%;
+}
+
+</style> 
 
 </head>
 <body>
@@ -76,13 +88,13 @@ VALUES ('$companyId','$companyName','$branchId','$branchName','$expensesFor','$e
             <form action = "" method = "post" role="form">
 
                 
-                <div class="form-group">
+               <div class="form-group">
                 <label>Select Branch</label>
                 <select name="branch" class="form-control" id="box1" onChange="getSelectedText(this);"  required>
                 <option value="">None</option>
 
                 <?php
-                $query ="SELECT branchName, branchId FROM branch WHERE companyId LIKE {$_SESSION['companyId']} Group by branchName  ";
+                $query ="SELECT branchName, branchId FROM branch WHERE companyId LIKE {$_SESSION['companyId']} AND status = 'unblock' Group by branchName";
                 $result= mysqli_query($conn,$query);
 
                 while($row=mysqli_fetch_array($result))
@@ -93,7 +105,18 @@ VALUES ('$companyId','$companyName','$branchId','$branchName','$expensesFor','$e
                 }
                 ?>
                 </select>
+                <input type="hidden" name="selectBranchName" id="selectBranchName_hidden">
                 </div>
+
+<script>
+function getSelectedText(sel)
+{
+var getText = (sel.options[sel.selectedIndex].text);
+document.getElementById("selectBranchName_hidden").value = getText;
+//$("#selectBranchName_hidden").val(("#box1").find(":selected").text());
+//alert(getText);
+}
+</script>
                
                 <div class="form-group">
                     <label>Expence For</label>
@@ -123,22 +146,6 @@ VALUES ('$companyId','$companyName','$branchId','$branchName','$expensesFor','$e
     </div>
 </div>
 
-     <!-- CONTENT-WRAPPER SECTION END-->
-    <section class="footer-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                   &copy; 2014 Yourdomain.com |<a href="http://www.binarytheme.com/" target="_blank"  > Designed by : binarytheme.com</a> 
-                </div>
 
-            </div>
-        </div>
-    </section>
-       
-
- <script src="assets/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS  -->
-    <script src="assets/js/bootstrap.js"></script>
-    <script src="assets/js/custom.js"></script>
 </body>
 </html>

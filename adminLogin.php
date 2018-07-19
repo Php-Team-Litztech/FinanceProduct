@@ -5,14 +5,14 @@ include 'db_connect.php';
 session_start();
 
 if(isset($_SESSION['companyId'])) {
-    header("Location: branch.php");
+    header("Location: index.php");
 }
         
-         if (isset($_POST['login'])) {
+if (isset($_POST['login'])) {
 
     $companyName = mysqli_real_escape_string($conn, $_POST['companyName']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $result = mysqli_query($conn, "SELECT * FROM admin_registration WHERE companyName = '" . $companyName. "' and password = '" . $password. "'");
+    $result = mysqli_query($conn, "SELECT * FROM admin_registration WHERE status = 'Unblock' and companyName = '" . $companyName. "' and password = '" . $password. "'");
 
     if ($row = mysqli_fetch_array($result)) {
         $_SESSION['companyId'] = $row['companyId'];
@@ -26,22 +26,14 @@ if(isset($_SESSION['companyId'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <!--[if IE]>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <![endif]-->
-    <title>Admin Login</title>
-    <!-- BOOTSTRAP CORE STYLE  -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONT AWESOME STYLE  -->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- CUSTOM STYLE  -->
-    <link href="assets/css/style.css" rel="stylesheet" />
-    <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 <body>             
@@ -115,10 +107,5 @@ x.type = "password";
 include 'footer.php';
 ?>
        
-
- <script src="assets/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS  -->
-    <script src="assets/js/bootstrap.js"></script>
-    <script src="assets/js/custom.js"></script>
 </body>
 </html>
